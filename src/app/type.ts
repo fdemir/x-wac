@@ -1,0 +1,61 @@
+export interface Item {
+  user: User;
+  id: string;
+  conversation_id: string;
+  full_text: string;
+  reply_count: number;
+  retweet_count: number;
+  favorite_count: number;
+  hashtags: any[];
+  symbols: any[];
+  user_mentions: any[];
+  urls: any[];
+  media: any[][];
+  url: string;
+  created_at: string;
+  "#sort_index": any;
+  quote_count: number;
+  is_quote_tweet: boolean;
+  is_retweet: boolean;
+  is_pinned: boolean;
+  is_truncated: boolean;
+  startUrl: string;
+}
+
+export interface User {
+  blocking: boolean;
+  created_at: string;
+  default_profile_image: boolean;
+  description: string;
+  fast_followers_count: number;
+  favourites_count: number;
+  follow_request_sent: boolean;
+  followed_by: boolean;
+  followers_count: number;
+  following: boolean;
+  friends_count: number;
+  has_custom_timelines: boolean;
+  id: number;
+  id_str: string;
+  is_translator: boolean;
+  listed_count: number;
+  location: string;
+  media_count: number;
+  name: string;
+  normal_followers_count: number;
+  notifications: boolean;
+  profile_banner_url: string;
+  profile_image_url_https: string;
+  protected: boolean;
+  screen_name: string;
+  show_all_inline_media: boolean;
+  statuses_count: number;
+  time_zone: string;
+  translator_type: string;
+  url: string;
+  utc_offset: number;
+  verified: boolean;
+  withheld_in_countries: any[];
+  withheld_scope: string;
+  is_blue_verified: boolean;
+}
