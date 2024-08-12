@@ -34,8 +34,6 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-RUN pnpm exec playwright install chromium
-
 
 # Production image, copy all the files and run next
 FROM base AS runner
@@ -47,6 +45,9 @@ ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
+RUN corepack enable pnpm
+RUN pnpm exec playwright install chromium
 
 COPY --from=builder /app/public ./public
 
