@@ -17,8 +17,10 @@ export default function Home() {
   return (
     <main className="flex min-h-screen container justify-start items-center flex-col gap-4 pt-10">
       <div>
-        <h1 className="text-4xl font-bold">From Tweets to Film Seats</h1>
-        <p className="py-4">
+        <h1 className="text-4xl font-bold text-center">
+          From Tweets to Film Seats
+        </h1>
+        <p className="py-4 text-center">
           Turning your tweets into your next favorite movie night.
         </p>
       </div>
@@ -33,12 +35,17 @@ export default function Home() {
         />
       </div>
 
-      <div className="grid md:grid-cols-4 grid-cols-1 gap-4  ">
-        {isPending && <LoadingSpinner />}
+      <div className="grid md:grid-cols-4 grid-cols-1 gap-4  w">
+        {isPending && (
+          <div className="col-span-4 flex items-center justify-center w-full py-10">
+            <LoadingSpinner />
+          </div>
+        )}
         {generation.map((movie) => (
           <Link
             key={movie.tmdbId}
             href={`https://www.themoviedb.org/movie/${movie.tmdbId}`}
+            className="flex items-center justify-center"
           >
             <div key={movie.tmdbId}>
               <Image
@@ -52,6 +59,10 @@ export default function Home() {
           </Link>
         ))}
       </div>
+
+      <span className="fixed bottom-2 left-2 text-xs text-zinc-400">
+        Powered by <a href="https://watchandchill.in">WatchAndChill</a>
+      </span>
     </main>
   );
 }
