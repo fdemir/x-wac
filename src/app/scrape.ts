@@ -10,7 +10,10 @@ export async function scrape(url: string): Promise<
     tweets: string[] | null;
   }>
 > {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({
+    headless: true,
+    args: ["--no-sandbox"],
+  });
   const context = await browser.newContext({
     viewport: { width: 1920, height: 1080 },
     userAgent,
@@ -21,23 +24,26 @@ export async function scrape(url: string): Promise<
 
   await page.goto(url);
 
-  const responsePromise = await page.waitForResponse((response) =>
-    response.url().includes("UserTweets")
-  );
+  const responsePromise = await page
+    .waitForResponse((response) => {
+      return response.url().includes("UserTweets");
+    })
+    .catch(() => {
+      page.close();
+    });
   const body = await responsePromise.json();
 
-  const description = await page.evaluate(
-    () =>
-      document.querySelector("div[data-testid='UserDescription']")?.textContent
+  const description = await page.waitForSelector(
+    "div[data-testid='UserDescription']"
   );
 
   const tweets = body?.data?.user?.result?.timeline_v2?.timeline?.instructions
     .find((x) => x.type === "TimelineAddEntries")
     ?.entries.map(
-      (x) => x.content.itemContent.tweet_results.result.legacy.full_text
+      (x) => x.content.itemContent?.tweet_results?.result?.legacy?.full_text
     )
+    .filter((x) => Boolean(x))
     .map((x) => {
-      // strip out urls
       const regex = /(https?:\/\/[^\s]+)/g;
       return x.replace(regex, "");
     });

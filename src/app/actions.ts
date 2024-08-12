@@ -39,10 +39,11 @@ export async function generate(username: string) {
     system: "",
     prompt: `
       Analyze the following list of tweets and description and determine the user's traits. 
-        Return keywords, personality, tone, and frequently used words.
-      User Profile: ${description}
-      Tweet list:
-        ${tweets?.join("\n")}
+        Return keywords, personality, tone, and frequently used words. Return max 50 for each.
+        
+        User Profile: ${description}
+        Tweet list:
+          ${tweets?.join("\n")}
     `,
     schema: z.object({
       info: z.object({
